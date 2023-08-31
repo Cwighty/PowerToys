@@ -400,4 +400,8 @@
     <value>Plum</value>
     <comment>Plum color</comment>
   </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin</value>
+    <comment>Tool tip that appears when user can pin a color to their favorites</comment>
+  </data>
 </root>

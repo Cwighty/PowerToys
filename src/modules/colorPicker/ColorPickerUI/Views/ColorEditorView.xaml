@@ -37,6 +37,13 @@
                          ItemClick="HistoryColors_ItemClick">
                 <ui:ListView.ContextMenu>
                     <ContextMenu Visibility="{Binding ColorsHistory.Count, Converter={StaticResource numberToVisibilityConverter}}">
+                        <MenuItem Header="{x:Static p:Resources.Pin}"
+                                  Command="{Binding PinColorsCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}">
+                            <MenuItem.Icon>
+                                <ui:FontIcon Glyph="&#xE718;" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="{x:Static p:Resources.Remove}"
                                   Command="{Binding RemoveColorsCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}">
