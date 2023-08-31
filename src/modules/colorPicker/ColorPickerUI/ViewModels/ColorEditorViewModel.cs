@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
@@ -30,6 +31,7 @@ namespace ColorPicker.ViewModels
         private Color _selectedColor;
         private bool _initializing;
         private int _selectedColorIndex;
+        private int _selectedPinnedColorIndex;
 
         [ImportingConstructor]
         public ColorEditorViewModel(IUserSettings userSettings)
@@ -38,6 +40,7 @@ namespace ColorPicker.ViewModels
             OpenSettingsCommand = new RelayCommand(() => OpenSettingsRequested?.Invoke(this, EventArgs.Empty));
 
             RemoveColorsCommand = new RelayCommand(DeleteSelectedColors);
+            RemovePinnedColorsCommand = new RelayCommand(DeleteSelectedPinnedColors);
             PinColorsCommand = new RelayCommand(PinSelectedColors);
             ExportColorsGroupedByColorCommand = new RelayCommand(ExportSelectedColorsByColor);
             ExportColorsGroupedByFormatCommand = new RelayCommand(ExportSelectedColorsByFormat);
@@ -67,6 +70,8 @@ namespace ColorPicker.ViewModels
 
         public ICommand RemoveColorsCommand { get; }
 
+        public ICommand RemovePinnedColorsCommand { get; }
+
         public ICommand PinColorsCommand { get; }
 
         public ICommand ExportColorsGroupedByColorCommand { get; }
@@ -78,6 +83,10 @@ namespace ColorPicker.ViewModels
         public ICommand HideColorFormatCommand { get; }
 
         public ObservableCollection<Color> ColorsHistory { get; } = new ObservableCollection<Color>();
+
+        public ObservableCollection<Color> PinnedColors { get; } = new ObservableCollection<Color>();
+
+        public int ColorCount => ColorsHistory.Count + PinnedColors.Count;
 
         public ObservableCollection<ColorFormatModel> ColorRepresentations { get; } = new ObservableCollection<ColorFormatModel>();
 
@@ -108,9 +117,32 @@ namespace ColorPicker.ViewModels
                 if (value >= 0)
                 {
                     SelectedColor = ColorsHistory[_selectedColorIndex];
+                    SelectedPinnedColorIndex = -1;
                 }
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedPinnedColorIndex));
+            }
+        }
+
+        public int SelectedPinnedColorIndex
+        {
+            get
+            {
+                return _selectedPinnedColorIndex;
+            }
+
+            set
+            {
+                _selectedPinnedColorIndex = value;
+                if (value >= 0)
+                {
+                    SelectedColor = PinnedColors[_selectedPinnedColorIndex];
+                    SelectedColorIndex = -1;
+                }
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedColorIndex));
             }
         }
 
@@ -164,17 +196,30 @@ namespace ColorPicker.ViewModels
             SessionEventHelper.Event.EditorHistoryColorRemoved = true;
         }
 
+        private void DeleteSelectedPinnedColors(object selectedColors)
+        {
+            var colorsToRemove = ((IList)selectedColors).OfType<Color>().ToList();
+            var indicesToRemove = colorsToRemove.Select(color => PinnedColors.IndexOf(color)).ToList();
+
+            foreach (var color in colorsToRemove)
+            {
+                PinnedColors.Remove(color);
+            }
+
+            SelectedColorIndex = ComputeWhichIndexToSelectAfterDeletion(colorsToRemove.Count + PinnedColors.Count, indicesToRemove);
+            SessionEventHelper.Event.EditorHistoryColorRemoved = true;
+        }
+
         private void PinSelectedColors(object selectedColors)
         {
             var colorsToPin = ((IList)selectedColors).OfType<Color>().ToList();
+            DeleteSelectedColors(selectedColors);
 
             foreach (var color in colorsToPin)
             {
-                ColorsHistory.Remove(color);
-                ColorsHistory.Insert(0, color);
+                PinnedColors.Insert(0, color);
             }
 
-            SelectedColorIndex = 1;
             SessionEventHelper.Event.EditorHistoryColorPinned = true;
         }
 

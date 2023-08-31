@@ -22,6 +22,10 @@ namespace ColorPicker.ViewModelContracts
 
         ICommand RemoveColorsCommand { get; }
 
+        ICommand RemovePinnedColorsCommand { get; }
+
+        ICommand PinColorsCommand { get; }
+
         ICommand ExportColorsGroupedByColorCommand { get; }
 
         ICommand ExportColorsGroupedByFormatCommand { get; }
@@ -29,6 +33,8 @@ namespace ColorPicker.ViewModelContracts
         ObservableCollection<ColorFormatModel> ColorRepresentations { get; }
 
         ObservableCollection<Color> ColorsHistory { get; }
+
+        ObservableCollection<Color> PinnedColors { get; }
 
         Color SelectedColor { get; set; }
 
