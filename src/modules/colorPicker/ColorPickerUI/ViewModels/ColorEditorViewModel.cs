@@ -180,6 +180,24 @@ namespace ColorPicker.ViewModels
 
                 _userSettings.ColorHistory.ReleaseNotification();
             }
+
+            OnPropertyChanged(nameof(ColorCount));
+        }
+
+        private void PinnedColors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            /*if (!_initializing)
+             {
+                _userSettings.ColorHistory.ClearWithoutNotification();
+                foreach (var item in ColorsHistory)
+                {
+                    _userSettings.ColorHistory.AddWithoutNotification(item.A + "|" + item.R + "|" + item.G + "|" + item.B);
+                }
+
+                _userSettings.ColorHistory.ReleaseNotification();
+           }*/
+
+            OnPropertyChanged(nameof(ColorCount));
         }
 
         private void DeleteSelectedColors(object selectedColors)

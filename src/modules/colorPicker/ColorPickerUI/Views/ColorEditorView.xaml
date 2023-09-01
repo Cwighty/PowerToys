@@ -213,7 +213,7 @@
 
         <!-- Main grid -->
         <Grid Grid.Column="2"
-              Visibility="{Binding ColorsHistory.Count, Converter={StaticResource numberToVisibilityConverter}}">
+              Visibility="{Binding ColorCount, Converter={StaticResource numberToVisibilityConverter}}">
             <ScrollViewer IsTabStop="False"
                           Margin="0,90,0,0">
                 <StackPanel>
