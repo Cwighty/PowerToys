@@ -55,6 +55,7 @@ namespace ColorPicker.ViewModels
                 SelectedColorIndex = 0;
             });
             ColorsHistory.CollectionChanged += ColorsHistory_CollectionChanged;
+            PinnedColors.CollectionChanged += PinnedColors_CollectionChanged;
             _userSettings = userSettings;
             SetupAllColorRepresentations();
             SetupAvailableColorRepresentations();
