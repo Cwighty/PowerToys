@@ -25,6 +25,7 @@ namespace ColorPicker.Settings
         private readonly ISettingsUtils _settingsUtils;
         private const string ColorPickerModuleName = "ColorPicker";
         private const string ColorPickerHistoryFilename = "colorHistory.json";
+        private const string PinnedColorsFilename = "pinnedColors.json";
         private const string DefaultActivationShortcut = "Ctrl + Break";
         private const int MaxNumberOfRetry = 5;
         private const int SettingsReadOnChangeDelayInMs = 300;
@@ -34,7 +35,7 @@ namespace ColorPicker.Settings
 
         private readonly object _loadingSettingsLock = new object();
 
-        private bool _loadingColorsHistory;
+        private bool _loadingColors;
 
         [ImportingConstructor]
         public UserSettings(Helpers.IThrottledActionInvoker throttledActionInvoker)
@@ -46,6 +47,7 @@ namespace ColorPicker.Settings
             ActivationAction = new SettingItem<ColorPickerActivationAction>(ColorPickerActivationAction.OpenEditor);
             ColorHistoryLimit = new SettingItem<int>(20);
             ColorHistory.CollectionChanged += ColorHistory_CollectionChanged;
+            PinnedColors.CollectionChanged += PinnedColors_CollectionChanged;
             ShowColorName = new SettingItem<bool>(false);
 
             LoadSettingsFromJson();
@@ -56,9 +58,17 @@ namespace ColorPicker.Settings
 
         private void ColorHistory_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (!_loadingColorsHistory)
+            if (!_loadingColors)
             {
                 _settingsUtils.SaveSettings(JsonSerializer.Serialize(ColorHistory, new JsonSerializerOptions { WriteIndented = true }), ColorPickerModuleName, ColorPickerHistoryFilename);
+            }
+        }
+
+        private void PinnedColors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (!_loadingColors)
+            {
+                _settingsUtils.SaveSettings(JsonSerializer.Serialize(PinnedColors, new JsonSerializerOptions { WriteIndented = true }), ColorPickerModuleName, PinnedColorsFilename);
             }
         }
 
@@ -74,13 +84,15 @@ namespace ColorPicker.Settings
 
         public RangeObservableCollection<string> ColorHistory { get; private set; } = new RangeObservableCollection<string>();
 
+        public RangeObservableCollection<string> PinnedColors { get; private set; } = new RangeObservableCollection<string>();
+
         public SettingItem<int> ColorHistoryLimit { get; }
+
+        public SettingItem<int> PinnedColorLimit { get; }
 
         public ObservableCollection<System.Collections.Generic.KeyValuePair<string, string>> VisibleColorFormats { get; private set; } = new ObservableCollection<System.Collections.Generic.KeyValuePair<string, string>>();
 
         public SettingItem<bool> ShowColorName { get; }
-
-        public RangeObservableCollection<string> PinnedColors { get; private set; } = new RangeObservableCollection<string>();
 
         private void LoadSettingsFromJson()
         {
@@ -121,6 +133,7 @@ namespace ColorPicker.Settings
                                 ShowColorName.Value = settings.Properties.ShowColorName;
 
                                 List<string> savedColorHistory = new List<string>();
+                                List<string> savedPinnedColors = new List<string>();
                                 try
                                 {
                                     string filePath = _settingsUtils.GetSettingsFilePath(ColorPickerModuleName, ColorPickerHistoryFilename);
@@ -142,14 +155,34 @@ namespace ColorPicker.Settings
                                     Logger.LogInfo("ColorPicker colorHistory.json was missing or corrupt");
                                 }
 
-                                _loadingColorsHistory = true;
+                                try
+                                {
+                                    string filePath = _settingsUtils.GetSettingsFilePath(ColorPickerModuleName, PinnedColorsFilename);
+                                    if (File.Exists(filePath))
+                                    {
+                                        string jsonSettingsString = System.IO.File.ReadAllText(filePath).Trim('\0');
+                                        savedPinnedColors = JsonSerializer.Deserialize<List<string>>(jsonSettingsString);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    Logger.LogInfo("PinnedColors pinnedColors.json was missing or corrupt");
+                                }
+
+                                _loadingColors = true;
                                 ColorHistory.Clear();
+                                PinnedColors.Clear();
                                 foreach (var item in savedColorHistory)
                                 {
                                     ColorHistory.Add(item);
                                 }
 
-                                _loadingColorsHistory = false;
+                                foreach (var item in savedPinnedColors)
+                                {
+                                    PinnedColors.Add(item);
+                                }
+
+                                _loadingColors = false;
 
                                 VisibleColorFormats.Clear();
                                 foreach (var item in settings.Properties.VisibleColorFormats)

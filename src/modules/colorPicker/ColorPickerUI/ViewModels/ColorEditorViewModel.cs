@@ -152,6 +152,7 @@ namespace ColorPicker.ViewModels
             _initializing = true;
 
             ColorsHistory.Clear();
+            PinnedColors.Clear();
 
             foreach (var item in _userSettings.ColorHistory)
             {
