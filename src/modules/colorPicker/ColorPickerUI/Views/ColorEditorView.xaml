@@ -39,7 +39,7 @@
                 <ui:ListView.ContextMenu>
                     <ContextMenu Visibility="{Binding PinnedColors.Count, Converter={StaticResource numberToVisibilityConverter}}">
                         <MenuItem Header="{x:Static p:Resources.Remove}"
-                                  Command="{Binding RemoveColorsCommand}"
+                                  Command="{Binding RemovePinnedColorsCommand}"
                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}">
                             <MenuItem.Icon>
                                 <ui:FontIcon Glyph="&#xE74D;" />
