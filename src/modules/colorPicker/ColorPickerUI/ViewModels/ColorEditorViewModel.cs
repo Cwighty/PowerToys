@@ -118,7 +118,17 @@ namespace ColorPicker.ViewModels
                 if (value >= 0)
                 {
                     SelectedColor = ColorsHistory[_selectedColorIndex];
-                    SelectedPinnedColorIndex = -1;
+                    if (ColorsHistory.Count > 0 && PinnedColors.Count > 0)
+                    {
+                        SelectedPinnedColorIndex = -1;
+                    }
+                }
+                else
+                {
+                    if (ColorsHistory.Count == 0 && PinnedColors.Count > 0)
+                    {
+                        SelectedPinnedColorIndex = 0;
+                    }
                 }
 
                 OnPropertyChanged();
@@ -139,7 +149,17 @@ namespace ColorPicker.ViewModels
                 if (value >= 0)
                 {
                     SelectedColor = PinnedColors[_selectedPinnedColorIndex];
-                    SelectedColorIndex = -1;
+                    if (ColorsHistory.Count > 0 && PinnedColors.Count > 0)
+                    {
+                        SelectedColorIndex = -1;
+                    }
+                }
+                else
+                {
+                    if (PinnedColors.Count == 0 && ColorsHistory.Count > 0 )
+                    {
+                        SelectedColorIndex = 0;
+                    }
                 }
 
                 OnPropertyChanged();
