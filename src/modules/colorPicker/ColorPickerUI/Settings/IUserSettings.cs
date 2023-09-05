@@ -22,6 +22,8 @@ namespace ColorPicker.Settings
 
         RangeObservableCollection<string> ColorHistory { get; }
 
+        RangeObservableCollection<string> PinnedColors { get; }
+
         SettingItem<int> ColorHistoryLimit { get; }
 
         ObservableCollection<System.Collections.Generic.KeyValuePair<string, string>> VisibleColorFormats { get; }

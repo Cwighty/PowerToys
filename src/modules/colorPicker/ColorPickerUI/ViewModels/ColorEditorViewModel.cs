@@ -155,18 +155,29 @@ namespace ColorPicker.ViewModels
 
             foreach (var item in _userSettings.ColorHistory)
             {
-                var parts = item.Split('|');
-                ColorsHistory.Add(new Color()
+                ColorsHistory.Add(ParseStringToColor(item));
+                SelectedColorIndex = 0;
+            }
+
+            foreach (var item in _userSettings.PinnedColors)
+            {
+                PinnedColors.Add(ParseStringToColor(item));
+                SelectedColorIndex = 0;
+            }
+
+            _initializing = false;
+
+            static Color ParseStringToColor(string color)
+            {
+                var parts = color.Split('|');
+                return new Color()
                 {
                     A = byte.Parse(parts[0], NumberStyles.Integer, CultureInfo.InvariantCulture),
                     R = byte.Parse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture),
                     G = byte.Parse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture),
                     B = byte.Parse(parts[3], NumberStyles.Integer, CultureInfo.InvariantCulture),
-                });
-                SelectedColorIndex = 0;
+                };
             }
-
-            _initializing = false;
         }
 
         private void ColorsHistory_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -187,16 +198,16 @@ namespace ColorPicker.ViewModels
 
         private void PinnedColors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            /*if (!_initializing)
+            if (!_initializing)
              {
-                _userSettings.ColorHistory.ClearWithoutNotification();
-                foreach (var item in ColorsHistory)
+                _userSettings.PinnedColors.ClearWithoutNotification();
+                foreach (var item in PinnedColors)
                 {
-                    _userSettings.ColorHistory.AddWithoutNotification(item.A + "|" + item.R + "|" + item.G + "|" + item.B);
+                    _userSettings.PinnedColors.AddWithoutNotification(item.A + "|" + item.R + "|" + item.G + "|" + item.B);
                 }
 
-                _userSettings.ColorHistory.ReleaseNotification();
-           }*/
+                _userSettings.PinnedColors.ReleaseNotification();
+           }
 
             OnPropertyChanged(nameof(ColorCount));
         }

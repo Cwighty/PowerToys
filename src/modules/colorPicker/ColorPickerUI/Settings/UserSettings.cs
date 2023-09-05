@@ -80,6 +80,8 @@ namespace ColorPicker.Settings
 
         public SettingItem<bool> ShowColorName { get; }
 
+        public RangeObservableCollection<string> PinnedColors { get; private set; } = new RangeObservableCollection<string>();;
+
         private void LoadSettingsFromJson()
         {
             // TODO this IO call should by Async, update GetFileWatcher helper to support async
