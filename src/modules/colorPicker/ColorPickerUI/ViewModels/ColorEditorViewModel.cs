@@ -237,7 +237,7 @@ namespace ColorPicker.ViewModels
                 PinnedColors.Remove(color);
             }
 
-            SelectedColorIndex = ComputeWhichIndexToSelectAfterDeletion(colorsToRemove.Count + PinnedColors.Count, indicesToRemove);
+            SelectedPinnedColorIndex = ComputeWhichIndexToSelectAfterDeletion(colorsToRemove.Count + PinnedColors.Count, indicesToRemove);
             SessionEventHelper.Event.EditorHistoryColorRemoved = true;
         }
 
