@@ -80,7 +80,7 @@ namespace ColorPicker.Settings
 
         public SettingItem<bool> ShowColorName { get; }
 
-        public RangeObservableCollection<string> PinnedColors { get; private set; } = new RangeObservableCollection<string>();;
+        public RangeObservableCollection<string> PinnedColors { get; private set; } = new RangeObservableCollection<string>();
 
         private void LoadSettingsFromJson()
         {
