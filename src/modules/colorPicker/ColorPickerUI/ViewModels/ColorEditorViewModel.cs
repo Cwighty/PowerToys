@@ -267,6 +267,11 @@ namespace ColorPicker.ViewModels
 
             foreach (var color in colorsToPin)
             {
+                if (PinnedColors.Contains(color))
+                {
+                    PinnedColors.Remove(color);
+                }
+
                 PinnedColors.Insert(0, color);
             }
 
