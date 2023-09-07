@@ -201,6 +201,8 @@
                     Command="{Binding OpenColorPickerCommand}"
                     Background="Transparent"
                     FontFamily="Segoe MDL2 Assets"
+                    HorizontalAlignment="Left"
+                    Margin="64,0,0,0"
                     ui:FocusVisualHelper.FocusVisualMargin="-1"
                     ToolTipService.ToolTip="{x:Static p:Resources.Pick_color}"
                     AutomationProperties.Name="{x:Static p:Resources.Pick_color}">
@@ -208,6 +210,14 @@
                     <TextBlock Text="&#xEF3C;" AutomationProperties.Name="{x:Static p:Resources.Pick_color}" />
                 </Button.Content>
             </Button>
+
+            <Button Width="64"
+                    Height="32"
+                    Content="&#xE77A;"
+                    TabIndex="2"
+                    Background="Transparent"
+                    FontFamily="Segoe MDL2 Assets"
+                    ToolTipService.ToolTip="{x:Static p:Resources.Clear_pinned}" />
         </Grid>
 
 

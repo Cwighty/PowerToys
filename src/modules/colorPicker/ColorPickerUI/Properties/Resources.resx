@@ -404,4 +404,8 @@
     <value>Pin</value>
     <comment>Tool tip that appears when user can pin a color to their favorites</comment>
   </data>
+  <data name="Clear_pinned" xml:space="preserve">
+    <value>Clear all pinned colors</value>
+    <comment>Tool tip that appears when hovering over the button that clears all pinned colors</comment>
+  </data>
 </root>

@@ -79,6 +79,15 @@ namespace ColorPicker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear all pinned colors.
+        /// </summary>
+        public static string Clear_pinned {
+            get {
+                return ResourceManager.GetString("Clear_pinned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color code.
         /// </summary>
         public static string Color_Code {
