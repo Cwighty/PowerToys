@@ -275,6 +275,14 @@ namespace ColorPicker.ViewModels
                 PinnedColors.Insert(0, color);
             }
 
+            foreach (var color in colorsToPin)
+            {
+                if (_userSettings.PinnedColors.Count > _userSettings.ColorHistoryLimit.Value)
+                {
+                    _userSettings.PinnedColors.RemoveAt(_userSettings.PinnedColors.Count - 1);
+                }
+            }
+
             SessionEventHelper.Event.EditorHistoryColorPinned = true;
         }
 
