@@ -264,7 +264,6 @@ namespace ColorPicker.ViewModels
         private void PinSelectedColors(object selectedColors)
         {
             var colorsToPin = ((IList)selectedColors).OfType<Color>().ToList();
-            DeleteSelectedColors(selectedColors);
 
             foreach (var color in colorsToPin)
             {
