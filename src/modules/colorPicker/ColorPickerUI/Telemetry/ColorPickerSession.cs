@@ -38,6 +38,8 @@ namespace ColorPicker.Telemetry
 
         public bool EditorHistoryColorPinned { get; set; }
 
+        public bool EditorHistoryColorUnpinned { get; set; }
+
         public bool EditorColorCopiedToClipboard { get; set; }
 
         public int Duration { get; set; }

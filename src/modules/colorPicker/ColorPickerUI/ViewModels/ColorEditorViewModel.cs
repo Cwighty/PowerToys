@@ -41,6 +41,7 @@ namespace ColorPicker.ViewModels
 
             RemoveColorsCommand = new RelayCommand(DeleteSelectedColors);
             RemovePinnedColorsCommand = new RelayCommand(DeleteSelectedPinnedColors);
+            ClearAllPinnedColorsCommand = new RelayCommand(RemoveAllPinnedColors);
             PinColorsCommand = new RelayCommand(PinSelectedColors);
             ExportColorsGroupedByColorCommand = new RelayCommand(ExportSelectedColorsByColor);
             ExportColorsGroupedByFormatCommand = new RelayCommand(ExportSelectedColorsByFormat);
@@ -74,6 +75,8 @@ namespace ColorPicker.ViewModels
         public ICommand RemovePinnedColorsCommand { get; }
 
         public ICommand PinColorsCommand { get; }
+
+        public ICommand ClearAllPinnedColorsCommand { get; }
 
         public ICommand ExportColorsGroupedByColorCommand { get; }
 
@@ -259,6 +262,12 @@ namespace ColorPicker.ViewModels
 
             SelectedPinnedColorIndex = ComputeWhichIndexToSelectAfterDeletion(colorsToRemove.Count + PinnedColors.Count, indicesToRemove);
             SessionEventHelper.Event.EditorHistoryColorRemoved = true;
+        }
+
+        private void RemoveAllPinnedColors()
+        {
+            PinnedColors.Clear();
+            _userSettings.PinnedColors.Clear();
         }
 
         private void PinSelectedColors(object selectedColors)

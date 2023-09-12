@@ -217,6 +217,7 @@
                     TabIndex="2"
                     Background="Transparent"
                     FontFamily="Segoe MDL2 Assets"
+                    Command="{Binding ClearAllPinnedColorsCommand}"
                     ToolTipService.ToolTip="{x:Static p:Resources.Clear_pinned}" />
         </Grid>
 
