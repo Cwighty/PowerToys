@@ -12,7 +12,7 @@ public class MouseInfoProviderFake : IMouseInfoProvider
 {
     public System.Windows.Point CurrentPosition => throw new NotImplementedException();
 
-    public Color CurrentColor => throw new NotImplementedException();
+    public Color CurrentColor { get; set; }
 
     public event EventHandler<Color> MouseColorChanged = (sender, e) => { };
 
@@ -25,6 +25,7 @@ public class MouseInfoProviderFake : IMouseInfoProvider
     public void TriggerColorChange(Color color)
     {
         MouseColorChanged?.Invoke(this, color);
+        CurrentColor = color;
         OnMouseDown?.Invoke(this, default);
     }
 }

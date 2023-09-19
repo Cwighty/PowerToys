@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Drawing;
+using System.Windows;
+using ColorPicker.Helpers;
 using ColorPicker.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,7 +18,10 @@ public class MainViewModelTests
     {
         var mouseInfoProvider = new MouseInfoProviderFake();
         var userSettings = new UserSettingsFake();
-        var viewModel = new MainViewModel(mouseInfoProvider, null, null, null, userSettings, System.Threading.CancellationToken.None);
+        var appStateHandler = new AppStateHandlerFake();
+        var fakeApplication = new ApplicationFake();
+
+        var viewModel = new MainViewModel(mouseInfoProvider, null, appStateHandler, null, fakeApplication, userSettings,  System.Threading.CancellationToken.None);
 
         mouseInfoProvider.TriggerColorChange(Color.Red);
 

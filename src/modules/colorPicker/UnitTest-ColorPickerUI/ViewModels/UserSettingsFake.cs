@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using ColorPicker.Common;
 using ColorPicker.Settings;
 using Microsoft.PowerToys.Settings.UI.Library.Enumerations;
@@ -17,9 +18,9 @@ public class UserSettingsFake : IUserSettings
 
     public SettingItem<bool> ChangeCursor => throw new NotImplementedException();
 
-    public SettingItem<string> CopiedColorRepresentation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public SettingItem<string> CopiedColorRepresentation { get => new SettingItem<string>("Red"); set => throw new NotImplementedException(); }
 
-    public SettingItem<string> CopiedColorRepresentationFormat { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public SettingItem<string> CopiedColorRepresentationFormat { get => new SettingItem<string>(string.Empty); set => throw new NotImplementedException(); }
 
     public SettingItem<ColorPickerActivationAction> ActivationAction => throw new NotImplementedException();
 
@@ -31,7 +32,7 @@ public class UserSettingsFake : IUserSettings
 
     public ObservableCollection<KeyValuePair<string, string>> VisibleColorFormats => throw new NotImplementedException();
 
-    public SettingItem<bool> ShowColorName => throw new NotImplementedException();
+    public SettingItem<bool> ShowColorName => new SettingItem<bool>(true);
 
     ObservableCollection<KeyValuePair<string, string>> IUserSettings.VisibleColorFormats => new ObservableCollection<KeyValuePair<string, string>>();
 

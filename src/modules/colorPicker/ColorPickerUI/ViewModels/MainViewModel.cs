@@ -25,6 +25,7 @@ namespace ColorPicker.ViewModels
         private readonly ZoomWindowHelper _zoomWindowHelper;
         private readonly AppStateHandler _appStateHandler;
         private readonly IUserSettings _userSettings;
+        private readonly Application application;
 
         /// <summary>
         /// Backing field for <see cref="OtherColor"/>
@@ -47,23 +48,24 @@ namespace ColorPicker.ViewModels
             ZoomWindowHelper zoomWindowHelper,
             AppStateHandler appStateHandler,
             KeyboardMonitor keyboardMonitor,
+            Application application,
             IUserSettings userSettings,
             CancellationToken exitToken)
         {
             _zoomWindowHelper = zoomWindowHelper;
             _appStateHandler = appStateHandler;
             _userSettings = userSettings;
-
+            this.application = application;
             NativeEventWaiter.WaitForEventLoop(
                 Constants.ShowColorPickerSharedEvent(),
                 _appStateHandler.StartUserSession,
-                Application.Current.Dispatcher,
+                application.Dispatcher,
                 exitToken);
 
             NativeEventWaiter.WaitForEventLoop(
                 Constants.ColorPickerSendSettingsTelemetryEvent(),
                 _userSettings.SendSettingsTelemetry,
-                Application.Current.Dispatcher,
+                application.Dispatcher,
                 exitToken);
 
             if (mouseInfoProvider != null)
@@ -80,7 +82,7 @@ namespace ColorPicker.ViewModels
             // Otherwise, the global keyboard hook from runner will be used to activate Color Picker through ShowColorPickerSharedEvent
             // and the Escape key will be registered as a shortcut by appStateHandler when ColorPicker is being used.
             // This is much lighter than using a local low level keyboard hook.
-            if ((System.Windows.Application.Current as ColorPickerUI.App).IsRunningDetachedFromPowerToys())
+            if ((application as ColorPickerUI.App)?.IsRunningDetachedFromPowerToys() ?? false)
             {
                 keyboardMonitor?.Start();
             }
