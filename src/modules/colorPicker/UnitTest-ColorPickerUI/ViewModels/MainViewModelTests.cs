@@ -20,8 +20,17 @@ public class MainViewModelTests
         var userSettings = new UserSettingsFake();
         var appStateHandler = new AppStateHandlerFake();
         var fakeApplication = new ApplicationFake();
+        var fakeClipboardHelper = new ClipboardHelperFake();
 
-        var viewModel = new MainViewModel(mouseInfoProvider, null, appStateHandler, null, fakeApplication, userSettings,  System.Threading.CancellationToken.None);
+        var viewModel = new MainViewModel(
+            mouseInfoProvider,
+            null,
+            appStateHandler,
+            null,
+            fakeApplication,
+            fakeClipboardHelper,
+            userSettings,
+            System.Threading.CancellationToken.None);
 
         mouseInfoProvider.TriggerColorChange(Color.Red);
 

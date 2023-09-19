@@ -26,6 +26,7 @@ namespace ColorPicker.ViewModels
         private readonly AppStateHandler _appStateHandler;
         private readonly IUserSettings _userSettings;
         private readonly Application application;
+        private readonly ClipboardHelper _clipboardHelper;
 
         /// <summary>
         /// Backing field for <see cref="OtherColor"/>
@@ -49,6 +50,7 @@ namespace ColorPicker.ViewModels
             AppStateHandler appStateHandler,
             KeyboardMonitor keyboardMonitor,
             Application application,
+            ClipboardHelper clipboardHelper,
             IUserSettings userSettings,
             CancellationToken exitToken)
         {
@@ -56,6 +58,7 @@ namespace ColorPicker.ViewModels
             _appStateHandler = appStateHandler;
             _userSettings = userSettings;
             this.application = application;
+            _clipboardHelper = clipboardHelper;
             NativeEventWaiter.WaitForEventLoop(
                 Constants.ShowColorPickerSharedEvent(),
                 _appStateHandler.StartUserSession,
@@ -146,7 +149,7 @@ namespace ColorPicker.ViewModels
         /// <param name="p">The current <see cref="System.Drawing.Point"/> of the mouse cursor</param>
         private void MouseInfoProvider_OnMouseDown(object sender, System.Drawing.Point p)
         {
-            ClipboardHelper.CopyToClipboard(ColorText);
+            _clipboardHelper.CopyToClipboard(ColorText);
 
             var color = GetColorString();
 

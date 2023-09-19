@@ -10,14 +10,14 @@ using static ColorPicker.NativeMethods;
 
 namespace ColorPicker.Helpers
 {
-    public static class ClipboardHelper
+    public class ClipboardHelper
     {
         /// <summary>
         /// Defined error code for "clipboard can't open"
         /// </summary>
         private const uint ErrorCodeClipboardCantOpen = 0x800401D0;
 
-        public static void CopyToClipboard(string colorRepresentationToCopy)
+        public void CopyToClipboard(string colorRepresentationToCopy)
         {
             if (!string.IsNullOrEmpty(colorRepresentationToCopy))
             {
