@@ -64,7 +64,7 @@ public partial class ColorFormatControl : UserControl
 
     private void CopyToClipboardButton_Click(object sender, RoutedEventArgs e)
     {
-        ClipboardHelper.CopyToClipboard(ColorTextRepresentationTextBlock.Text);
+        new ClipboardHelper().CopyToClipboard(ColorTextRepresentationTextBlock.Text);
         SessionEventHelper.Event.EditorColorCopiedToClipboard = true;
         if (!_copyIndicatorVisible)
         {

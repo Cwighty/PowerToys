@@ -24,9 +24,9 @@ namespace ColorPicker.ViewModels
     {
         private readonly ZoomWindowHelper _zoomWindowHelper;
         private readonly AppStateHandler _appStateHandler;
+        private readonly ClipboardHelper _clipboardHelper;
         private readonly IUserSettings _userSettings;
         private readonly Application application;
-        private readonly ClipboardHelper _clipboardHelper;
 
         /// <summary>
         /// Backing field for <see cref="OtherColor"/>
@@ -43,22 +43,21 @@ namespace ColorPicker.ViewModels
         /// </summary>
         private string _colorName;
 
-        [ImportingConstructor]
         public MainViewModel(
             IMouseInfoProvider mouseInfoProvider,
             ZoomWindowHelper zoomWindowHelper,
             AppStateHandler appStateHandler,
             KeyboardMonitor keyboardMonitor,
-            Application application,
             ClipboardHelper clipboardHelper,
+            Application application,
             IUserSettings userSettings,
             CancellationToken exitToken)
         {
             _zoomWindowHelper = zoomWindowHelper;
             _appStateHandler = appStateHandler;
+            _clipboardHelper = clipboardHelper;
             _userSettings = userSettings;
             this.application = application;
-            _clipboardHelper = clipboardHelper;
             NativeEventWaiter.WaitForEventLoop(
                 Constants.ShowColorPickerSharedEvent(),
                 _appStateHandler.StartUserSession,
@@ -89,6 +88,26 @@ namespace ColorPicker.ViewModels
             {
                 keyboardMonitor?.Start();
             }
+        }
+
+        [ImportingConstructor]
+        public MainViewModel(
+            IMouseInfoProvider mouseInfoProvider,
+            ZoomWindowHelper zoomWindowHelper,
+            AppStateHandler appStateHandler,
+            KeyboardMonitor keyboardMonitor,
+            IUserSettings userSettings,
+            CancellationToken exitToken)
+            : this(
+                   mouseInfoProvider,
+                   zoomWindowHelper,
+                   appStateHandler,
+                   keyboardMonitor,
+                   new ClipboardHelper(),
+                   Application.Current,
+                   userSettings,
+                   exitToken)
+        {
         }
 
         /// <summary>

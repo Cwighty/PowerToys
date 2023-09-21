@@ -3,13 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using ColorPicker.Helpers;
+using ColorPicker.Settings;
 
 namespace Microsoft.ColorPicker.UnitTests.ViewModels;
 
 public class AppStateHandlerFake : AppStateHandler
 {
-    public AppStateHandlerFake()
-        : base()
+    public AppStateHandlerFake(IUserSettings userSettings)
+        : base(userSettings)
     {
     }
 }

@@ -8,7 +8,7 @@ namespace Microsoft.ColorPicker.UnitTests.ViewModels
 {
     public class ClipboardHelperFake : ClipboardHelper
     {
-        public new void CopyToClipboard(string colorRepresentationToCopy)
+        public override void CopyToClipboard(string colorRepresentationToCopy)
         {
             return;
         }

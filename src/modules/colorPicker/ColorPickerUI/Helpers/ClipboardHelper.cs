@@ -17,7 +17,7 @@ namespace ColorPicker.Helpers
         /// </summary>
         private const uint ErrorCodeClipboardCantOpen = 0x800401D0;
 
-        public void CopyToClipboard(string colorRepresentationToCopy)
+        public virtual void CopyToClipboard(string colorRepresentationToCopy)
         {
             if (!string.IsNullOrEmpty(colorRepresentationToCopy))
             {

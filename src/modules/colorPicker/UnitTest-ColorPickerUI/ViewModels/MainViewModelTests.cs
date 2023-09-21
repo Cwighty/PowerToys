@@ -18,22 +18,23 @@ public class MainViewModelTests
     {
         var mouseInfoProvider = new MouseInfoProviderFake();
         var userSettings = new UserSettingsFake();
-        var appStateHandler = new AppStateHandlerFake();
+        var appStateHandler = new AppStateHandlerFake(userSettings);
         var fakeApplication = new ApplicationFake();
         var fakeClipboardHelper = new ClipboardHelperFake();
 
+        // var fakeClipboardHelper = new ClipboardHelperFake();
         var viewModel = new MainViewModel(
             mouseInfoProvider,
             null,
             appStateHandler,
             null,
-            fakeApplication,
             fakeClipboardHelper,
+            fakeApplication,
             userSettings,
             System.Threading.CancellationToken.None);
 
         mouseInfoProvider.TriggerColorChange(Color.Red);
 
-        Assert.Equals(userSettings.ColorHistory.Count, 1);
+        Assert.AreEqual(userSettings.ColorHistory.Count, 1);
     }
 }

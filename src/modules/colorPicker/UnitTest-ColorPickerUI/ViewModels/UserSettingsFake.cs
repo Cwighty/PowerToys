@@ -22,9 +22,9 @@ public class UserSettingsFake : IUserSettings
 
     public SettingItem<string> CopiedColorRepresentationFormat { get => new SettingItem<string>(string.Empty); set => throw new NotImplementedException(); }
 
-    public SettingItem<ColorPickerActivationAction> ActivationAction => throw new NotImplementedException();
+    public SettingItem<ColorPickerActivationAction> ActivationAction => new SettingItem<ColorPickerActivationAction>(ColorPickerActivationAction.OpenOnlyColorPicker);
 
-    public RangeObservableCollection<string> ColorHistory => throw new NotImplementedException();
+    public RangeObservableCollection<string> ColorHistory { get; set; } = new RangeObservableCollection<string>();
 
     public RangeObservableCollection<string> PinnedColors { get; set; } = new RangeObservableCollection<string>();
 

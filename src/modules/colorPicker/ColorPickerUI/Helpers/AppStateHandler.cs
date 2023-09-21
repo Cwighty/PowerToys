@@ -37,8 +37,9 @@ namespace ColorPicker.Helpers
             _userSettings = userSettings;
         }
 
-        protected AppStateHandler()
+        protected AppStateHandler(IUserSettings userSettings)
         {
+            _userSettings = userSettings;
         }
 
         public event EventHandler AppShown;
